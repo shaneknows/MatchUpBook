@@ -1,0 +1,70 @@
+﻿<Menu>
+	<Game>
+		<Title>Super Smash Bros. 4</Title>
+		<PlayerCharacter>
+			<Title>Fox</Title>
+			<OpponentMatchup>
+				<Title>Shiek</Title>
+				<Wins>5</Wins>
+				<Losses>3</Losses>
+				<Notes>Easy Mode</Notes>
+			</OpponentMatchup>
+			<OpponentMatchup>
+				<Title>ZSS</Title>
+				<Wins>1</Wins>
+				<Losses>3</Losses>
+				<Notes>Easy Mode</Notes>
+			</OpponentMatchup>
+		</PlayerCharacter>
+		<PlayerCharacter>
+			<Title>ZSS</Title>
+			<OpponentMatchup>
+				<Title>Fox</Title>
+				<Wins>4</Wins>
+				<Losses>1</Losses>
+				<Notes>Piece of cake</Notes>
+			</OpponentMatchup>
+			<OpponentMatchup>
+				<Title>Ryu</Title>
+				<Wins>1</Wins>
+				<Losses>3</Losses>
+				<Notes>Too strong</Notes>
+			</OpponentMatchup>
+		</PlayerCharacter>
+	</Game>
+	<Game>
+		<Title>Super Street Fighter 4</Title>
+		<PlayerCharacter>
+			<Title>Fei Long</Title>
+			<OpponentMatchup>
+				<Title>Ken</Title>
+				<Wins>5</Wins>
+				<Losses>0</Losses>
+				<Notes>Stay Fray</Notes>
+			</OpponentMatchup>
+			<OpponentMatchup>
+				<Title>Vega</Title>
+				<Wins>0</Wins>
+				<Losses>30</Losses>
+				<Notes>I hate 
+				vega</Notes>
+			</OpponentMatchup>
+		</PlayerCharacter>
+		<PlayerCharacter>
+			<Title>Ken</Title>
+			<OpponentMatchup>
+				<Title>Ryu</Title>
+				<Wins>4</Wins>
+				<Losses>1</Losses>
+				<Notes>free</Notes>
+			</OpponentMatchup>
+			<OpponentMatchup>
+				<Title>Akuma</Title>
+				<Wins>1</Wins>
+				<Losses>3</Losses>
+				<Notes>bodied</Notes>
+			</OpponentMatchup>
+		</PlayerCharacter>
+	</Game>
+</Menu>
+
