@@ -12,13 +12,14 @@ using Android.Widget;
 using MatchUpBook.Interfaces;
 using System.Xml.Serialization;
 using System.IO;
+using MatchUpBook.Models;
 
 namespace MatchUpBook.Activities
 {
     [Activity(Label = "BuildMenuActivity")]
     public class BuildMenuActivity : Activity, IBuildMenuHandler
     {
-		Menu menu;
+		MenuNode menu;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -27,21 +28,21 @@ namespace MatchUpBook.Activities
 
         }
 
-        public void AddGame(Game game)
+        public void AddGame(GameNode game)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Menu));
+            XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
             using (TextWriter writer = new StreamWriter(Assets.Open("Data.xml")))
             {
                 serializer.Serialize(writer, menu);
             }
         }
 
-        public void AddCharacter(PlayerCharacter playerCharacter)
+        public void AddCharacter(PlayerCharacterNode playerCharacter)
         {
             throw new NotImplementedException();
         }
 
-        public void AddMatchup(OpponentMatchup opponentMatchup)
+        public void AddMatchup(OpponentMatchupNode opponentMatchup)
         {
             throw new NotImplementedException();
         }

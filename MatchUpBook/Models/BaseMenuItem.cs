@@ -11,7 +11,7 @@ using Android.Views;
 using Android.Widget;
 using System.Xml.Serialization;
 
-namespace MatchUpBook
+namespace MatchUpBook.Models
 {
     public class BaseMenuItem
     {

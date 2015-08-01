@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace MatchUpBook
+namespace MatchUpBook.Models
 {
-	public class PlayerCharacter : BaseMenuItem
+	public class PlayerCharacterNode : BaseMenuItem
 	{
-        public PlayerCharacter() { }
+        public PlayerCharacterNode() { }
 
-		public PlayerCharacter (string pTitle)
+		public PlayerCharacterNode (string pTitle)
 		{
             this.Title = pTitle;
-            Opponents = new List<OpponentMatchup>();
+            Opponents = new List<OpponentMatchupNode>();
 		}
 
         [XmlElement("OpponentMatchup")]
-        public List<OpponentMatchup> Opponents { get; set; }
+        public List<OpponentMatchupNode> Opponents { get; set; }
 
 		public int GetPlayedGames()
 		{

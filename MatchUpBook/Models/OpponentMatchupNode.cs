@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace MatchUpBook
+namespace MatchUpBook.Models
 {
-	public class OpponentMatchup : BaseMenuItem
+	public class OpponentMatchupNode : BaseMenuItem
 	{
-        public OpponentMatchup() { }
-		public OpponentMatchup (string pTitle)
+        public OpponentMatchupNode() { }
+		public OpponentMatchupNode (string pTitle)
 		{
             this.Title = pTitle;
             Notes = "";

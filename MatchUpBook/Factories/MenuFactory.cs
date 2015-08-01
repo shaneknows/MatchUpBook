@@ -11,33 +11,34 @@ using Android.Views;
 using Android.Widget;
 using System.IO;
 using System.Xml.Serialization;
+using MatchUpBook.Models;
 
 namespace MatchUpBook.Factories
 {
     public interface IMenuFactory
     {
-        Menu GetMenu(string fileContents);
+        MenuNode GetMenu(string fileContents);
     }
 
     public class MenuFactory : IMenuFactory
     {
         public MenuFactory() { }
 
-        public Menu GetMenu(string fileContents)
+        public MenuNode GetMenu(string fileContents)
         {
-            Menu menu;
+            MenuNode menu;
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Menu));
+            XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
             using (TextReader reader = new StringReader(fileContents))
             {
-                 menu = (Menu)serializer.Deserialize(reader);
+                 menu = (MenuNode)serializer.Deserialize(reader);
             }
             return menu;
         }
 
-        public Menu UpdateMenu(Menu menu, FileStream fileContents)
+        public MenuNode UpdateMenu(MenuNode menu, FileStream fileContents)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Menu));
+            XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
             serializer.Serialize(fileContents, menu);
             return menu;
         }

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace MatchUpBook
+namespace MatchUpBook.Models
 {
     [XmlRoot("Menu")]
-	public class Menu
+	public class MenuNode
 	{
-		public Menu ()
+		public MenuNode ()
 		{
 		}
 
 		[XmlElement("Game")]
-		public List<Game> Games { get; set;}
+		public List<GameNode> Games { get; set;}
 	}
 }
 

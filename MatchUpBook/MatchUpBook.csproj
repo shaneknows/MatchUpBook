@@ -46,16 +46,18 @@
   <ItemGroup>
     <Compile Include="Activities\BuildMenuActivity.cs" />
     <Compile Include="Activities\MenuActivity.cs" />
-    <Compile Include="BaseMenuItem.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Models\BaseMenuItem.cs" />
     <Compile Include="Factories\MenuFactory.cs" />
     <Compile Include="Interfaces\IBuildMenuHandler.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Models\MenuItemType.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="PlayerCharacter.cs" />
-    <Compile Include="OpponentMatchup.cs" />
+    <Compile Include="Models\MenuNode.cs" />
+    <Compile Include="Models\GameNode.cs" />
+    <Compile Include="Models\PlayerCharacterNode.cs" />
+    <Compile Include="Models\OpponentMatchupNode.cs" />
     <Compile Include="Interfaces\IMenuHandler.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,8 +76,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Data.xml">
+    <AndroidAsset Include="Assets\Data.xml">
       <DeployService-Deploy>True</DeployService-Deploy>
-    </EmbeddedResource>
+    </AndroidAsset>
   </ItemGroup>
+  <ItemGroup />
 </Project>

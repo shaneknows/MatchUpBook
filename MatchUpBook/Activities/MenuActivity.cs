@@ -14,13 +14,14 @@ using MatchUpBook.Interfaces;
 using System.Drawing;
 using System.Xml.Serialization;
 using System.Security.Permissions;
+using MatchUpBook.Models;
 
 namespace MatchUpBook.Activities
 {
     [Activity(Label = "MenuActivity")]
     public class MenuActivity : Activity, IMenuHander
     {
-        Menu menu;
+        MenuNode menu;
         MenuFactory menuFactory;
         protected override void OnCreate(Bundle bundle)
         {
@@ -51,7 +52,7 @@ namespace MatchUpBook.Activities
             }
             else
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Menu));
+                XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
                 using (var streamReader = new StreamReader(Assets.Open("Data.xml")))
                 {
                     content = streamReader.ReadToEnd();
@@ -68,7 +69,7 @@ namespace MatchUpBook.Activities
 
         public void UpdateMenu()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(Menu));
+            XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
             string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             string filename = Path.Combine(path, "Data.xml");
             using (var streamWriter = new StreamWriter(filename))
@@ -109,7 +110,7 @@ namespace MatchUpBook.Activities
             createButton.Text = "Add new Game";
             createButton.Click += (sender, e) =>
             {
-				SetContentView(GetAddGameLayout());
+				SetContentView(GetAddNewLayout(MenuItemType.Game));
             };
 			layout.AddView (createButton);
 
@@ -124,7 +125,7 @@ namespace MatchUpBook.Activities
             return layout;
         }
 
-        public LinearLayout GetGameLayout(Game game)
+        public LinearLayout GetGameLayout(GameNode game)
         {
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
@@ -141,6 +142,15 @@ namespace MatchUpBook.Activities
                 { SetContentView(GetCharacterLayout(character)); };
                 layout.AddView(button);
             }
+
+            var createButton = new Button(this);
+            createButton.Text = "Add new Player/Character";
+            createButton.Click += (sender, e) =>
+            {
+                SetContentView(GetAddNewLayout(MenuItemType.PlayerCharacter, game));
+            };
+            layout.AddView(createButton);
+            
             var returnHomeButton = new Button(this);
             returnHomeButton.Text = "Return Home";
             returnHomeButton.Click += (sender, e) =>
@@ -152,7 +162,7 @@ namespace MatchUpBook.Activities
             return layout;
         }
 
-        public LinearLayout GetCharacterLayout(PlayerCharacter pCharacter)
+        public LinearLayout GetCharacterLayout(PlayerCharacterNode pCharacter)
         {
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
@@ -169,6 +179,15 @@ namespace MatchUpBook.Activities
                 { SetContentView(GetOpponentLayout(pCharacter.Title, opponent)); };
                 layout.AddView(button);
             }
+            
+            var createButton = new Button(this);
+            createButton.Text = "Add new Opponent Matchup";
+            createButton.Click += (sender, e) =>
+            {
+                SetContentView(GetAddNewLayout(MenuItemType.Opponent, pCharacter));
+            };
+            layout.AddView(createButton);
+
             var returnHomeButton = new Button(this);
             returnHomeButton.Text = "Return Home";
             returnHomeButton.Click += (sender, e) =>
@@ -180,7 +199,7 @@ namespace MatchUpBook.Activities
             return layout;
         }
 
-        public LinearLayout GetOpponentLayout(string pPlayerCharacterTitle, OpponentMatchup pOpponent)
+        public LinearLayout GetOpponentLayout(string pPlayerCharacterTitle, OpponentMatchupNode pOpponent)
         {
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
@@ -224,13 +243,13 @@ namespace MatchUpBook.Activities
         }
         #endregion
 
-        public LinearLayout GetAddGameLayout()
+        public LinearLayout GetAddNewLayout(MenuItemType type, BaseMenuItem parent = null)
         {
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
             var aLabel = new TextView(this);
-            aLabel.Text = "What is the name of the game?";
+            aLabel.Text = string.Format("What is the name of the {0}?", type.ToString());
             layout.AddView(aLabel);
 
             var textField = new EditText(this);
@@ -240,9 +259,26 @@ namespace MatchUpBook.Activities
             saveButton.Text = "Create";
             saveButton.Click += (sender, e) =>
             {
-                menu.Games.Add(new Game(textField.Text));
-                UpdateMenu();
-                SetContentView(GetHomeLayout());
+                switch(type)
+                {
+                    case MenuItemType.Game:
+                        menu.Games.Add(new GameNode(textField.Text));
+                        UpdateMenu();
+                        SetContentView(GetHomeLayout());
+                        break;
+                    case MenuItemType.PlayerCharacter:
+                        ((GameNode)parent).Characters.Add(new PlayerCharacterNode(textField.Text));
+                        UpdateMenu();
+                        SetContentView(GetGameLayout(((GameNode)parent)));
+                        break;
+                    case MenuItemType.Opponent:
+                        ((PlayerCharacterNode)parent).Opponents.Add(new OpponentMatchupNode(textField.Text));
+                        UpdateMenu();
+                        SetContentView(GetCharacterLayout(((PlayerCharacterNode)parent)));
+                        break;
+                    default:
+                        break;
+                }
             };
             layout.AddView(saveButton);
 

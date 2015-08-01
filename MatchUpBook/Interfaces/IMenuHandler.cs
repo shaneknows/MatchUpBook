@@ -1,5 +1,6 @@
 ﻿using Android.Content;
 using Android.Widget;
+using MatchUpBook.Models;
 using System;
 
 namespace MatchUpBook.Interfaces
@@ -8,11 +9,11 @@ namespace MatchUpBook.Interfaces
     {
         LinearLayout GetHomeLayout();
 
-        LinearLayout GetGameLayout(Game pGame);
+        LinearLayout GetGameLayout(GameNode pGame);
 
-        LinearLayout GetCharacterLayout(PlayerCharacter pCharacter);
+        LinearLayout GetCharacterLayout(PlayerCharacterNode pCharacter);
 
-        LinearLayout GetOpponentLayout(string pPlayerCharacterTitle, OpponentMatchup pOpponent);
+        LinearLayout GetOpponentLayout(string pPlayerCharacterTitle, OpponentMatchupNode pOpponent);
     }
 }
 

@@ -9,16 +9,17 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MatchUpBook.Models;
 
 namespace MatchUpBook.Interfaces
 {
     public interface IBuildMenuHandler
     {
-        void AddGame(Game game);
+        void AddGame(GameNode game);
 
-        void AddCharacter(PlayerCharacter playerCharacter);
+        void AddCharacter(PlayerCharacterNode playerCharacter);
 
-        void AddMatchup(OpponentMatchup opponentMatchup);
+        void AddMatchup(OpponentMatchupNode opponentMatchup);
 
         void Remove(BaseMenuItem item);
     }
