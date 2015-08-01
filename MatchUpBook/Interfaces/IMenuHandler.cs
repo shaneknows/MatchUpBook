@@ -2,7 +2,7 @@
 using Android.Widget;
 using System;
 
-namespace MatchUpBook
+namespace MatchUpBook.Interfaces
 {
     public interface IMenuHander
     {

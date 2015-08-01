@@ -4,16 +4,16 @@ using System.Xml.Serialization;
 
 namespace MatchUpBook
 {
-	public class OpponentMatchup
+	public class OpponentMatchup : BaseMenuItem
 	{
-		public OpponentMatchup ()
+        public OpponentMatchup() { }
+		public OpponentMatchup (string pTitle)
 		{
+            this.Title = pTitle;
+            Notes = "";
 			Wins = 0;
 			Losses = 0;
 		}
-
-        [XmlElement("Title")]
-		public string Title { get; set; }
 
         [XmlElement("Notes")]
 		public string Notes { get; set; }

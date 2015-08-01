@@ -16,14 +16,14 @@ namespace MatchUpBook.Factories
 {
     public interface IMenuFactory
     {
-        Menu CreateMenu(string fileContents);
+        Menu GetMenu(string fileContents);
     }
 
     public class MenuFactory : IMenuFactory
     {
         public MenuFactory() { }
 
-        public Menu CreateMenu(string fileContents)
+        public Menu GetMenu(string fileContents)
         {
             Menu menu;
 
@@ -32,6 +32,13 @@ namespace MatchUpBook.Factories
             {
                  menu = (Menu)serializer.Deserialize(reader);
             }
+            return menu;
+        }
+
+        public Menu UpdateMenu(Menu menu, FileStream fileContents)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Menu));
+            serializer.Serialize(fileContents, menu);
             return menu;
         }
     }

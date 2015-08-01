@@ -4,14 +4,15 @@ using System.Xml.Serialization;
 
 namespace MatchUpBook
 {
-	public class Game
+	public class Game : BaseMenuItem
 	{
-		public Game ()
-		{
-		}
+        public Game() { }
 
-        [XmlElement("Title")]
-		public string Title { get; set; }
+		public Game (string pTitle)
+		{
+            this.Title = pTitle;
+            Characters = new List<PlayerCharacter>();
+		}
 
         [XmlElement("PlayerCharacter")]
         public List<PlayerCharacter> Characters { get; set; }

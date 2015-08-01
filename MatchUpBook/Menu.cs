@@ -9,7 +9,6 @@ namespace MatchUpBook
 	{
 		public Menu ()
 		{
-			
 		}
 
 		[XmlElement("Game")]
