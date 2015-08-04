@@ -5,7 +5,7 @@ using System;
 
 namespace MatchUpBook.Interfaces
 {
-    public interface IMenuHander
+    public interface IMenuHandler
     {
         LinearLayout GetHomeLayout();
 

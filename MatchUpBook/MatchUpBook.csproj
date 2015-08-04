@@ -44,8 +44,6 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activities\BuildMenuActivity.cs" />
-    <Compile Include="Activities\MenuActivity.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Models\BaseMenuItem.cs" />
     <Compile Include="Factories\MenuFactory.cs" />
