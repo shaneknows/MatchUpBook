@@ -8,11 +8,15 @@ namespace MatchUpBook.Models
 	{
         public PlayerCharacterNode() { }
 
-		public PlayerCharacterNode (string pTitle)
+		public PlayerCharacterNode (string pTitle, GameNode parent)
 		{
             this.Title = pTitle;
+            this.Parent = parent;
             Opponents = new List<OpponentMatchupNode>();
 		}
+
+        [XmlIgnore]
+        public GameNode Parent { get; set; }
 
         [XmlElement("OpponentMatchup")]
         public List<OpponentMatchupNode> Opponents { get; set; }

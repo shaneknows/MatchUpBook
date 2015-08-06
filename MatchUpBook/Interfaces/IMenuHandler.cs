@@ -7,13 +7,13 @@ namespace MatchUpBook.Interfaces
 {
     public interface IMenuHandler
     {
-        LinearLayout GetHomeLayout();
+        ScrollView GetHomeLayout();
 
-        LinearLayout GetGameLayout(GameNode pGame);
+        ScrollView GetGameLayout(GameNode pGame);
 
-        LinearLayout GetCharacterLayout(PlayerCharacterNode pCharacter);
+        ScrollView GetCharacterLayout(PlayerCharacterNode pCharacter);
 
-        LinearLayout GetOpponentLayout(string pPlayerCharacterTitle, OpponentMatchupNode pOpponent);
+        ScrollView GetOpponentLayout(OpponentMatchupNode pOpponent);
     }
 }
 

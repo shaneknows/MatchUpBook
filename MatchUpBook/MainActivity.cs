@@ -10,6 +10,7 @@ using System.Xml.Serialization;
 using MatchUpBook.Factories;
 using MatchUpBook.Interfaces;
 using MatchUpBook.Models;
+using System.Linq;
 
 namespace MatchUpBook
 {
@@ -36,7 +37,7 @@ namespace MatchUpBook
             string filename = Path.Combine(path, "Data.xml");
             string content;
 
-            //If local menu exists load it, otherwise create new menu based on template
+            //If local menu exists load it, otherwise create new menu
             if (File.Exists(filename))
             {
                 using (var streamReader = new StreamReader(filename))
@@ -47,23 +48,22 @@ namespace MatchUpBook
             }
             else
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
-                using (var streamReader = new StreamReader(Assets.Open("Data.xml")))
-                {
-                    content = streamReader.ReadToEnd();
-                }
-
-                menu = menuFactory.GetMenu(content);
-
-                using (var streamWriter = new StreamWriter(filename))
-                {
-                    serializer.Serialize(streamWriter, menu);
-                }
+                menu = new MenuNode();
+                UpdateMenu();
             }
         }
 
         public void UpdateMenu()
         {
+            foreach(var game in menu.Games)
+            {
+                foreach(var character in game.Characters)
+                {
+                    character.Opponents = character.Opponents.OrderBy(x => x.Title).ToList();
+                }
+                game.Characters = game.Characters.OrderBy(x => x.Title).ToList();
+            }
+            menu.Games = menu.Games.OrderBy(x => x.Title).ToList();
             XmlSerializer serializer = new XmlSerializer(typeof(MenuNode));
             string path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
             string filename = Path.Combine(path, "Data.xml");
@@ -83,8 +83,9 @@ namespace MatchUpBook
         }
 
         #region IMenuHandler Features
-        public LinearLayout GetHomeLayout()
+        public ScrollView GetHomeLayout()
         {
+            var scrollView = new ScrollView(this);
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
@@ -117,11 +118,13 @@ namespace MatchUpBook
             };
             layout.AddView(closeButton);
 
-            return layout;
+            scrollView.AddView(layout);
+            return scrollView; ;
         }
 
-        public LinearLayout GetGameLayout(GameNode game)
+        public ScrollView GetGameLayout(GameNode game)
         {
+            var scrollView = new ScrollView(this);
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
@@ -146,19 +149,21 @@ namespace MatchUpBook
             };
             layout.AddView(createButton);
 
-            var returnHomeButton = new Button(this);
-            returnHomeButton.Text = "Return Home";
-            returnHomeButton.Click += (sender, e) =>
+            var backButton = new Button(this);
+            backButton.Text = "Back";
+            backButton.Click += (sender, e) =>
             {
                 SetContentView(GetHomeLayout());
             };
-            layout.AddView(returnHomeButton);
+            layout.AddView(backButton);
+            scrollView.AddView(layout);
 
-            return layout;
+            return scrollView;
         }
 
-        public LinearLayout GetCharacterLayout(PlayerCharacterNode pCharacter)
+        public ScrollView GetCharacterLayout(PlayerCharacterNode pCharacter)
         {
+            var scrollView = new ScrollView(this);
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
@@ -171,7 +176,7 @@ namespace MatchUpBook
                 var button = new Button(this);
                 button.Text = opponent.Title;
                 button.Click += (sender, e) =>
-                { SetContentView(GetOpponentLayout(pCharacter.Title, opponent)); };
+                { SetContentView(GetOpponentLayout(opponent)); };
                 layout.AddView(button);
             }
 
@@ -183,24 +188,26 @@ namespace MatchUpBook
             };
             layout.AddView(createButton);
 
-            var returnHomeButton = new Button(this);
-            returnHomeButton.Text = "Return Home";
-            returnHomeButton.Click += (sender, e) =>
+            var backButton = new Button(this);
+            backButton.Text = "Back";
+            backButton.Click += (sender, e) =>
             {
-                SetContentView(GetHomeLayout());
+                SetContentView(GetGameLayout(pCharacter.Parent));
             };
-            layout.AddView(returnHomeButton);
+            layout.AddView(backButton);
+            scrollView.AddView(layout);
 
-            return layout;
+            return scrollView;
         }
 
-        public LinearLayout GetOpponentLayout(string pPlayerCharacterTitle, OpponentMatchupNode pOpponent)
+        public ScrollView GetOpponentLayout(OpponentMatchupNode pOpponent)
         {
+            var scrollView = new ScrollView(this);
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
             var aLabel = new TextView(this);
-            aLabel.Text = pPlayerCharacterTitle + " VS " + pOpponent.Title;
+            aLabel.Text = pOpponent.Parent.Title + " VS " + pOpponent.Title;
 
             layout.AddView(aLabel);
 
@@ -210,7 +217,7 @@ namespace MatchUpBook
             {
                 pOpponent.Wins++;
                 UpdateMenu();
-                SetContentView(GetOpponentLayout(pPlayerCharacterTitle, pOpponent));
+                SetContentView(GetOpponentLayout(pOpponent));
             };
             layout.AddView(winButton);
 
@@ -220,7 +227,7 @@ namespace MatchUpBook
             {
                 pOpponent.Losses++;
                 UpdateMenu();
-                SetContentView(GetOpponentLayout(pPlayerCharacterTitle, pOpponent));
+                SetContentView(GetOpponentLayout(pOpponent));
             };
             layout.AddView(lossButton);
 
@@ -232,24 +239,26 @@ namespace MatchUpBook
             editButton.Text = "Edit";
             editButton.Click += (sender, e) =>
             {
-                SetContentView(GetEditLayout(pPlayerCharacterTitle, pOpponent));
+                SetContentView(GetEditLayout(pOpponent));
             };
             layout.AddView(editButton);
 
-            var returnHomeButton = new Button(this);
-            returnHomeButton.Text = "Return Home";
-            returnHomeButton.Click += (sender, e) =>
+            var backButton = new Button(this);
+            backButton.Text = "Back";
+            backButton.Click += (sender, e) =>
             {
-                SetContentView(GetHomeLayout());
+                SetContentView(GetCharacterLayout(pOpponent.Parent));
             };
-            layout.AddView(returnHomeButton);
+            layout.AddView(backButton);
+            scrollView.AddView(layout);
 
-            return layout;
+            return scrollView;
         }
         #endregion
 
-        public LinearLayout GetAddNewLayout(MenuItemType type, BaseMenuItem parent = null)
+        public ScrollView GetAddNewLayout(MenuItemType type, BaseMenuItem item = null)
         {
+            var scrollView = new ScrollView(this);
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
@@ -272,48 +281,53 @@ namespace MatchUpBook
                         SetContentView(GetHomeLayout());
                         break;
                     case MenuItemType.PlayerCharacter:
-                        ((GameNode)parent).Characters.Add(new PlayerCharacterNode(textField.Text));
+                        var newCharacter = new PlayerCharacterNode(textField.Text, (GameNode)item);
+                        ((GameNode)item).Characters.Add(newCharacter);
                         UpdateMenu();
-                        SetContentView(GetGameLayout(((GameNode)parent)));
+                        SetContentView(GetGameLayout(((PlayerCharacterNode)item).Parent));
                         break;
                     case MenuItemType.Opponent:
-                        ((PlayerCharacterNode)parent).Opponents.Add(new OpponentMatchupNode(textField.Text));
+                        var newOpponent = new OpponentMatchupNode(textField.Text, (PlayerCharacterNode)item);
+                        ((PlayerCharacterNode)item).Opponents.Add(newOpponent);
                         UpdateMenu();
-                        SetContentView(GetCharacterLayout(((PlayerCharacterNode)parent)));
+                        SetContentView(GetCharacterLayout((PlayerCharacterNode)item));
                         break;
                     default:
                         break;
                 }
             };
             layout.AddView(saveButton);
+            scrollView.AddView(layout);
 
-            return layout;
+            return scrollView;
         }
 
-        public LinearLayout GetEditLayout(string pCharacterTitle, OpponentMatchupNode opponent)
+        public ScrollView GetEditLayout(OpponentMatchupNode item)
         {
+            var scrollView = new ScrollView(this);
             var layout = new LinearLayout(this);
             layout.Orientation = Orientation.Vertical;
 
             var aLabel = new TextView(this);
-            aLabel.Text = opponent.Title + "Notes:";
+            aLabel.Text = string.Format("{0} VS {1} Notes:", item.Parent.Title, item.Title);
             layout.AddView(aLabel);
 
             var textField = new EditText(this);
-            textField.Text = opponent.Notes;
+            textField.Text = item.Notes;
             layout.AddView(textField);
 
             var saveButton = new Button(this);
             saveButton.Text = "Save";
             saveButton.Click += (sender, e) =>
             {
-                opponent.Notes = textField.Text;
+                item.Notes = textField.Text;
                 UpdateMenu();
-                SetContentView(GetOpponentLayout(pCharacterTitle, opponent));
+                SetContentView(GetOpponentLayout(item));
             };
             layout.AddView(saveButton);
+            scrollView.AddView(layout);
 
-            return layout;
+            return scrollView;
         }
     }
 }

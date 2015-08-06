@@ -7,9 +7,10 @@ namespace MatchUpBook.Models
 	public class OpponentMatchupNode : BaseMenuItem
 	{
         public OpponentMatchupNode() { }
-		public OpponentMatchupNode (string pTitle)
+		public OpponentMatchupNode (string pTitle, PlayerCharacterNode parent)
 		{
             this.Title = pTitle;
+            this.Parent = parent;
             Notes = "";
 			Wins = 0;
 			Losses = 0;
@@ -23,6 +24,9 @@ namespace MatchUpBook.Models
 
         [XmlElement("Losses")]
 		public int Losses { get; set; }
+
+        [XmlIgnore]
+        public PlayerCharacterNode Parent { get; set; }
 
 		public double GetWinLoss() {
 			return Wins/Losses;

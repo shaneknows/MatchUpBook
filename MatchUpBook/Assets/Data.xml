@@ -5,30 +5,30 @@
 			<Title>Fox</Title>
 			<OpponentMatchup>
 				<Title>Shiek</Title>
-				<Wins>5</Wins>
-				<Losses>3</Losses>
-				<Notes>Easy Mode</Notes>
+				<Wins>0</Wins>
+				<Losses>0</Losses>
+				<Notes></Notes>
 			</OpponentMatchup>
 			<OpponentMatchup>
 				<Title>ZSS</Title>
-				<Wins>1</Wins>
-				<Losses>3</Losses>
-				<Notes>Easy Mode</Notes>
+				<Wins>0</Wins>
+				<Losses>0</Losses>
+				<Notes></Notes>
 			</OpponentMatchup>
 		</PlayerCharacter>
 		<PlayerCharacter>
 			<Title>ZSS</Title>
 			<OpponentMatchup>
 				<Title>Fox</Title>
-				<Wins>4</Wins>
-				<Losses>1</Losses>
-				<Notes>Piece of cake</Notes>
+				<Wins>0</Wins>
+				<Losses>0</Losses>
+				<Notes></Notes>
 			</OpponentMatchup>
 			<OpponentMatchup>
 				<Title>Ryu</Title>
-				<Wins>1</Wins>
-				<Losses>3</Losses>
-				<Notes>Too strong</Notes>
+				<Wins>0</Wins>
+				<Losses>0</Losses>
+				<Notes></Notes>
 			</OpponentMatchup>
 		</PlayerCharacter>
 	</Game>

@@ -33,6 +33,19 @@ namespace MatchUpBook.Factories
             {
                  menu = (MenuNode)serializer.Deserialize(reader);
             }
+
+            //Set Parents
+            foreach(var game in menu.Games)
+            {
+                foreach(var character in game.Characters)
+                {
+                    foreach(var matchup in character.Opponents)
+                    {
+                        matchup.Parent = character;
+                    }
+                    character.Parent = game;
+                }
+            }
             return menu;
         }
 

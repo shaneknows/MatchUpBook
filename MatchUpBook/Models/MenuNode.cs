@@ -9,6 +9,7 @@ namespace MatchUpBook.Models
 	{
 		public MenuNode ()
 		{
+            Games = new List<GameNode>();
 		}
 
 		[XmlElement("Game")]
