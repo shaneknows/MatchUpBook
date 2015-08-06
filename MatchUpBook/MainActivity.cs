@@ -53,7 +53,7 @@ namespace MatchUpBook
             }
         }
 
-        public void UpdateMenu()
+        public BaseMenuItem UpdateMenu(MenuItemType? type = null, BaseMenuItem item = null)
         {
             foreach(var game in menu.Games)
             {
@@ -80,6 +80,20 @@ namespace MatchUpBook
             }
 
             menu = menuFactory.GetMenu(content);
+            if(type.HasValue && item != null)
+            {
+                switch(type.Value)
+                {
+                    case MenuItemType.PlayerCharacter:
+                        PlayerCharacterNode pCharacter = (PlayerCharacterNode)item;
+                        return menu.Games.Where(x => x.Title == pCharacter.Parent.Title).First();
+                    case MenuItemType.Opponent:
+                        OpponentMatchupNode oMatchup = (OpponentMatchupNode)item;
+                        return menu.Games.Where(x => x.Title == oMatchup.Parent.Parent.Title).First()
+                            .Characters.Where(y => y.Title == oMatchup.Parent.Title).First();
+                }
+            }
+            return null;
         }
 
         #region IMenuHandler Features
@@ -283,14 +297,14 @@ namespace MatchUpBook
                     case MenuItemType.PlayerCharacter:
                         var newCharacter = new PlayerCharacterNode(textField.Text, (GameNode)item);
                         ((GameNode)item).Characters.Add(newCharacter);
-                        UpdateMenu();
-                        SetContentView(GetGameLayout(((PlayerCharacterNode)item).Parent));
+                        var gameItem = (GameNode)UpdateMenu(type, newCharacter);
+                        SetContentView(GetGameLayout(gameItem));
                         break;
                     case MenuItemType.Opponent:
                         var newOpponent = new OpponentMatchupNode(textField.Text, (PlayerCharacterNode)item);
                         ((PlayerCharacterNode)item).Opponents.Add(newOpponent);
-                        UpdateMenu();
-                        SetContentView(GetCharacterLayout((PlayerCharacterNode)item));
+                        var newItem = (PlayerCharacterNode)UpdateMenu(type, newOpponent);
+                        SetContentView(GetCharacterLayout(newItem));
                         break;
                     default:
                         break;
